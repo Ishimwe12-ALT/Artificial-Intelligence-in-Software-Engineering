@@ -1,0 +1,49 @@
+// TaskNotifier owns every side effect that is NOT "store the task":
+// logging, the scheduling trigger, and high-priority alerts.
+class TaskNotifier {
+  static logQueueStart(queueName) {
+    console.log(`Starting queue ${queueName}.`);
+  }
+
+  static notifyHighPriority(queueName, priority) {
+    if (priority > 9) {
+      console.warn(`High priority task added to ${queueName}.`);
+    }
+  }
+}
+
+class TaskQueue {
+  constructor(name) {
+    this.queueName = name;
+    this.tasks = [];
+    this.isProcessing = false;
+  }
+
+  // addTask now has exactly one responsibility: validate and store the task.
+  addTask(taskFn, priority) {
+    if (!this._isValidTask(taskFn)) {
+      console.error('Task must be a function.');
+      return;
+    }
+
+    this.tasks.push({ taskFn, priority, timestamp: Date.now() });
+
+    TaskNotifier.notifyHighPriority(this.queueName, priority);
+
+    if (this.tasks.length === 1) {
+      TaskNotifier.logQueueStart(this.queueName);
+      this._startProcessing();
+    }
+  }
+
+  _isValidTask(taskFn) {
+    return !!taskFn && typeof taskFn === 'function';
+  }
+
+  _startProcessing() {
+    this.isProcessing = true;
+    // ... logic to process tasks ...
+  }
+}
+
+module.exports = { TaskQueue, TaskNotifier };
