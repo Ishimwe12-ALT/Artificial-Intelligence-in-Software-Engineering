@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>CSS Box Model & Display Lab</title>
+<style>
+  * { box-sizing: content-box; }
+  body {
+    font-family: -apple-system, Segoe UI, Arial, sans-serif;
+    background: #f4f5f7;
+    margin: 0;
+    padding: 30px;
+    color: #222;
+  }
+  h1 { font-size: 22px; margin-bottom: 4px; }
+  p.sub { color: #666; margin-top: 0; margin-bottom: 24px; }
+
+  .stage {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 40px;
+    min-height: 320px;
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    overflow: auto;
+  }
+
+  /* Box 2 - reference box, fixed */
+  #box2 {
+    width: 100px;
+    height: 100px;
+    background-color: #4a90d9;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    flex-shrink: 0;
+  }
+
+  /* Box 1 - controlled box */
+  #box1 {
+    /* margin area shown via a wrapping outline using an inset box-shadow trick isn't needed;
+       we use background-clip layering instead */
+    background-color: #ffd166;        /* margin area color */
+    background-clip: border-box;
+    box-sizing: content-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #333;
+    font-size: 13px;
+    border-style: solid;
+    border-color: #e63946;             /* border line */
+  }
+
+  #box1 .inner-padding {
+    background-color: #a8dadc;         /* padding area color */
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+  }
+
+  #box1 .inner-content {
+    background-color: #06d6a0;         /* content area color */
+    background-clip: content-box;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: #fff;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+  }
+
+  .panel {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin-top: 24px;
+  }
+  .panel h2 { font-size: 16px; margin-top: 0; }
+  .row {
+    display: grid;
+    grid-template-columns: 140px 1fr 60px;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+  .row label { font-size: 14px; }
+  .row input[type=range] { width: 100%; }
+  .row .val { font-size: 13px; color: #555; text-align: right; }
+  select {
+    padding: 6px 10px;
+    font-size: 14px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+  }
+  .legend { display: flex; gap: 18px; margin-top: 14px; font-size: 12px; flex-wrap: wrap; }
+  .legend span { display: inline-flex; align-items: center; gap: 6px; }
+  .swatch { width: 14px; height: 14px; border-radius: 3px; display: inline-block; }
+</style>
+</head>
+<body>
+
+<h1>CSS Box Model &amp; Display Lab</h1>
+<p class="sub">Box 1 (left) is fully controllable. Box 2 (right) is a fixed reference box so you can see how Box 1's <code>display</code> value changes its interaction with neighboring elements.</p>
+
+<div class="stage">
+  <div id="box1">
+    <div class="inner-padding">
+      <div class="inner-content">Box 1</div>
+    </div>
+  </div>
+  <div id="box2">Box 2</div>
+</div>
+
+<div class="panel">
+  <h2>Controls</h2>
+
+  <div class="row">
+    <label for="width">Width</label>
+    <input type="range" id="width" min="20" max="400" value="120">
+    <span class="val" id="widthVal">120px</span>
+  </div>
+
+  <div class="row">
+    <label for="padding">Padding</label>
+    <input type="range" id="padding" min="0" max="80" value="16">
+    <span class="val" id="paddingVal">16px</span>
+  </div>
+
+  <div class="row">
+    <label for="margin">Margin</label>
+    <input type="range" id="margin" min="0" max="80" value="16">
+    <span class="val" id="marginVal">16px</span>
+  </div>
+
+  <div class="row">
+    <label for="border">Border width</label>
+    <input type="range" id="border" min="0" max="30" value="6">
+    <span class="val" id="borderVal">6px</span>
+  </div>
+
+  <div class="row">
+    <label for="display">Display</label>
+    <select id="display">
+      <option value="block">block</option>
+      <option value="inline-block">inline-block</option>
+      <option value="inline">inline</option>
+    </select>
+    <span></span>
+  </div>
+
+  <div class="legend">
+    <span><span class="swatch" style="background:#06d6a0"></span> Content area</span>
+    <span><span class="swatch" style="background:#a8dadc"></span> Padding area</span>
+    <span><span class="swatch" style="background:#ffd166"></span> Margin area</span>
+    <span><span class="swatch" style="background:#e63946"></span> Border</span>
+  </div>
+</div>
+
+<script>
+  const box1 = document.getElementById('box1');
+
+  const widthEl = document.getElementById('width');
+  const paddingEl = document.getElementById('padding');
+  const marginEl = document.getElementById('margin');
+  const borderEl = document.getElementById('border');
+  const displayEl = document.getElementById('display');
+
+  const widthVal = document.getElementById('widthVal');
+  const paddingVal = document.getElementById('paddingVal');
+  const marginVal = document.getElementById('marginVal');
+  const borderVal = document.getElementById('borderVal');
+
+  function update() {
+    const w = widthEl.value;
+    const p = paddingEl.value;
+    const m = marginEl.value;
+    const b = borderEl.value;
+    const d = displayEl.value;
+
+    box1.style.width = w + 'px';
+    box1.style.height = w + 'px';
+    box1.style.padding = p + 'px';
+    box1.style.margin = m + 'px';
+    box1.style.borderWidth = b + 'px';
+    box1.style.display = d;
+
+    widthVal.textContent = w + 'px';
+    paddingVal.textContent = p + 'px';
+    marginVal.textContent = m + 'px';
+    borderVal.textContent = b + 'px';
+  }
+
+  [widthEl, paddingEl, marginEl, borderEl, displayEl].forEach(el => {
+    el.addEventListener('input', update);
+    el.addEventListener('change', update);
+  });
+
+  update();
+</script>
+
+</body>
+</html>
