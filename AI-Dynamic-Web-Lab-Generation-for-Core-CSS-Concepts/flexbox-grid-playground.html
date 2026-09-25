@@ -4,95 +4,43 @@
 <meta charset="UTF-8">
 <title>Flexbox & Grid Playground</title>
 <style>
-  body {
-    font-family: -apple-system, Segoe UI, Arial, sans-serif;
-    background: #f4f5f7;
-    margin: 0;
-    padding: 30px;
-    color: #222;
-  }
-  h1 { font-size: 22px; margin-bottom: 4px; }
-  p.sub { color: #666; margin-top: 0; margin-bottom: 24px; }
-
-  .stage {
-    background: #fff;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 24px;
-    min-height: 320px;
-  }
-
+  body { font-family: Arial, sans-serif; background: #f4f4f4; padding: 30px; }
+  h1 { text-align: center; }
+  .stage { display: flex; gap: 40px; justify-content: center; align-items: flex-start; flex-wrap: wrap; }
   #container {
-    background: #eef2f7;
-    border: 2px dashed #9aa5b1;
-    border-radius: 6px;
-    min-height: 260px;
-    padding: 16px;
-    display: flex; /* default */
+    width: 500px;
+    min-height: 300px;
+    background: #fff;
+    border: 2px dashed #999;
+    padding: 10px;
+    display: flex;
   }
-
   .item {
-    background: #4a90d9;
-    color: #fff;
+    background: #4da6ff;
+    color: white;
     font-weight: bold;
-    font-size: 16px;
-    border-radius: 6px;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+    width: 70px;
+    height: 70px;
+    border-radius: 6px;
+    margin: 5px;
   }
-  .item:nth-child(1) { background: #4a90d9; }
-  .item:nth-child(2) { background: #06a77d; }
-  .item:nth-child(3) { background: #e07a5f; }
-  .item:nth-child(4) { background: #9b5de5; }
-  .item:nth-child(5) { background: #f4a261; }
+  .item:nth-child(2) { background: #5cb85c; }
+  .item:nth-child(3) { background: #f0ad4e; }
+  .item:nth-child(4) { background: #d9534f; }
+  .item:nth-child(5) { background: #9b59b6; }
 
-  /* default flex sizing */
-  #container.flexmode .item,
-  #container.blockmode .item {
-    width: 80px;
-    height: 80px;
-  }
-
-  .panel {
-    background: #fff;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 20px 24px;
-    margin-top: 24px;
-  }
-  .panel h2 { font-size: 16px; margin-top: 0; margin-bottom: 14px; }
-  .controls {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 16px;
-  }
-  .field label {
-    display: block;
-    font-size: 12px;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    color: #777;
-    margin-bottom: 6px;
-  }
-  select {
-    width: 100%;
-    padding: 8px 10px;
-    font-size: 14px;
-    border-radius: 4px;
-    border: 1px solid #ccc;
-  }
-  select:disabled { opacity: 0.5; }
-  @media (max-width: 800px) {
-    .controls { grid-template-columns: 1fr 1fr; }
-  }
+  .controls { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.15); width: 300px; }
+  .control-row { margin-bottom: 14px; }
+  .control-row label { display: block; font-size: 13px; margin-bottom: 4px; font-weight: bold; }
+  select, input[type=text] { width: 100%; padding: 6px; }
 </style>
 </head>
 <body>
 
-<h1>Flexbox &amp; Grid Playground</h1>
-<p class="sub">Change the dropdowns to see how the container's layout mode affects its five child items in real time.</p>
+<h1>Flexbox & Grid Playground</h1>
 
 <div class="stage">
   <div id="container">
@@ -102,30 +50,25 @@
     <div class="item">4</div>
     <div class="item">5</div>
   </div>
-</div>
 
-<div class="panel">
-  <h2>Container properties</h2>
   <div class="controls">
-    <div class="field">
-      <label for="display">display</label>
+    <div class="control-row">
+      <label>display</label>
       <select id="display">
         <option value="block">block</option>
         <option value="flex" selected>flex</option>
         <option value="grid">grid</option>
       </select>
     </div>
-
-    <div class="field">
-      <label for="flexDirection">flex-direction</label>
+    <div class="control-row">
+      <label>flex-direction</label>
       <select id="flexDirection">
         <option value="row">row</option>
         <option value="column">column</option>
       </select>
     </div>
-
-    <div class="field">
-      <label for="justifyContent">justify-content</label>
+    <div class="control-row">
+      <label>justify-content</label>
       <select id="justifyContent">
         <option value="flex-start">flex-start</option>
         <option value="center">center</option>
@@ -135,24 +78,23 @@
         <option value="space-evenly">space-evenly</option>
       </select>
     </div>
-
-    <div class="field">
-      <label for="alignItems">align-items</label>
+    <div class="control-row">
+      <label>align-items</label>
       <select id="alignItems">
+        <option value="stretch">stretch</option>
         <option value="flex-start">flex-start</option>
         <option value="center">center</option>
         <option value="flex-end">flex-end</option>
-        <option value="stretch" selected>stretch</option>
       </select>
     </div>
-
-    <div class="field">
-      <label for="gridCols">grid-template-columns</label>
-      <select id="gridCols" disabled>
-        <option value="1fr 1fr">1fr 1fr</option>
+    <div class="control-row">
+      <label>grid-template-columns (Grid mode only)</label>
+      <select id="gridCols">
+        <option value="1fr">1fr</option>
+        <option value="1fr 1fr" selected>1fr 1fr</option>
         <option value="1fr 1fr 1fr">1fr 1fr 1fr</option>
-        <option value="1fr 1fr 1fr 1fr 1fr">1fr 1fr 1fr 1fr 1fr</option>
-        <option value="repeat(auto-fit, minmax(80px, 1fr))">repeat(auto-fit, minmax(80px,1fr))</option>
+        <option value="repeat(5, 1fr)">repeat(5, 1fr)</option>
+        <option value="100px 200px 1fr">100px 200px 1fr</option>
       </select>
     </div>
   </div>
@@ -160,45 +102,21 @@
 
 <script>
   const container = document.getElementById('container');
-  const displayEl = document.getElementById('display');
-  const flexDirectionEl = document.getElementById('flexDirection');
-  const justifyContentEl = document.getElementById('justifyContent');
-  const alignItemsEl = document.getElementById('alignItems');
-  const gridColsEl = document.getElementById('gridCols');
+  const display = document.getElementById('display');
+  const flexDirection = document.getElementById('flexDirection');
+  const justifyContent = document.getElementById('justifyContent');
+  const alignItems = document.getElementById('alignItems');
+  const gridCols = document.getElementById('gridCols');
 
   function update() {
-    const mode = displayEl.value;
-    container.style.display = mode;
-
-    const isFlex = mode === 'flex';
-    const isGrid = mode === 'grid';
-
-    flexDirectionEl.disabled = !isFlex;
-    justifyContentEl.disabled = !(isFlex || isGrid);
-    alignItemsEl.disabled = !(isFlex || isGrid);
-    gridColsEl.disabled = !isGrid;
-
-    if (isFlex) {
-      container.style.flexDirection = flexDirectionEl.value;
-      container.style.justifyContent = justifyContentEl.value;
-      container.style.alignItems = alignItemsEl.value;
-      container.style.gridTemplateColumns = '';
-    } else if (isGrid) {
-      container.style.gridTemplateColumns = gridColsEl.value;
-      container.style.justifyContent = justifyContentEl.value;
-      container.style.alignItems = alignItemsEl.value;
-      container.style.flexDirection = '';
-    } else {
-      container.style.flexDirection = '';
-      container.style.justifyContent = '';
-      container.style.alignItems = '';
-      container.style.gridTemplateColumns = '';
-    }
+    container.style.display = display.value;
+    container.style.flexDirection = flexDirection.value;
+    container.style.justifyContent = justifyContent.value;
+    container.style.alignItems = alignItems.value;
+    container.style.gridTemplateColumns = display.value === 'grid' ? gridCols.value : '';
   }
 
-  [displayEl, flexDirectionEl, justifyContentEl, alignItemsEl, gridColsEl]
-    .forEach(el => el.addEventListener('change', update));
-
+  [display, flexDirection, justifyContent, alignItems, gridCols].forEach(el => el.addEventListener('change', update));
   update();
 </script>
 

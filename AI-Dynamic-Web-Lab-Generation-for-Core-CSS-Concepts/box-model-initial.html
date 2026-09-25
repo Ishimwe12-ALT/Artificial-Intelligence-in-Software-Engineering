@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Box Model & Display Lab</title>
+<style>
+  body { font-family: Arial, sans-serif; background: #f4f4f4; padding: 30px; }
+  h1 { text-align: center; }
+  .stage {
+    display: flex;
+    gap: 40px;
+    justify-content: center;
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+  #box1-wrapper {
+    background: #ffe0b3; /* margin area color */
+    padding: 0;
+  }
+  #box1 {
+    background-clip: content-box;
+    background-color: #4da6ff; /* content area */
+    border: 5px solid #d9534f;
+    box-sizing: content-box;
+    outline: 3px dashed #5cb85c; /* padding boundary indicator */
+    color: white;
+    font-weight: bold;
+    display: block;
+    text-align: center;
+  }
+  #box2 {
+    width: 100px;
+    height: 100px;
+    background: #999;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+  }
+  .controls {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    width: 320px;
+  }
+  .control-row { margin-bottom: 14px; }
+  .control-row label { display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 4px; }
+  input[type=range] { width: 100%; }
+  select { width: 100%; padding: 6px; }
+  .legend { font-size: 12px; margin-top: 10px; }
+  .legend span { display: inline-block; width: 12px; height: 12px; margin-right: 5px; vertical-align: middle; }
+</style>
+</head>
+<body>
+
+<h1>CSS Box Model & Display Lab</h1>
+
+<div class="stage">
+  <div>
+    <div id="box1-wrapper">
+      <div id="box1">Box 1</div>
+    </div>
+    <div style="height:20px;"></div>
+    <div id="box2">Box 2</div>
+    <p class="legend">
+      <span style="background:#ffe0b3;"></span>Margin area &nbsp;
+      <span style="background:#d9534f;"></span>Border &nbsp;
+      <span style="background:#4da6ff;"></span>Content area
+    </p>
+  </div>
+
+  <div class="controls">
+    <div class="control-row">
+      <label>Padding <span id="paddingVal">10px</span></label>
+      <input type="range" id="padding" min="0" max="60" value="10">
+    </div>
+    <div class="control-row">
+      <label>Margin <span id="marginVal">10px</span></label>
+      <input type="range" id="margin" min="0" max="60" value="10">
+    </div>
+    <div class="control-row">
+      <label>Border Width <span id="borderVal">5px</span></label>
+      <input type="range" id="border" min="0" max="20" value="5">
+    </div>
+    <div class="control-row">
+      <label>Width <span id="widthVal">150px</span></label>
+      <input type="range" id="width" min="50" max="300" value="150">
+    </div>
+    <div class="control-row">
+      <label>Display</label>
+      <select id="display">
+        <option value="block">block</option>
+        <option value="inline-block">inline-block</option>
+        <option value="inline">inline</option>
+      </select>
+    </div>
+  </div>
+</div>
+
+<script>
+  const box1 = document.getElementById('box1');
+
+  const padding = document.getElementById('padding');
+  const margin = document.getElementById('margin');
+  const border = document.getElementById('border');
+  const width = document.getElementById('width');
+  const display = document.getElementById('display');
+
+  function update() {
+    box1.style.padding = padding.value + 'px';
+    box1.style.margin = margin.value + 'px';
+    box1.style.borderWidth = border.value + 'px';
+    box1.style.width = width.value + 'px';
+    box1.style.display = display.value;
+
+    document.getElementById('paddingVal').textContent = padding.value + 'px';
+    document.getElementById('marginVal').textContent = margin.value + 'px';
+    document.getElementById('borderVal').textContent = border.value + 'px';
+    document.getElementById('widthVal').textContent = width.value + 'px';
+  }
+
+  [padding, margin, border, width, display].forEach(el => el.addEventListener('input', update));
+  update();
+</script>
+
+</body>
+</html>
